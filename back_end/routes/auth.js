@@ -7,13 +7,14 @@ const { validateSignupRequest, isRequestValidated, validateSigninRequest } = req
 
 
 const express = require('express');
-// const { signout } = require('../controller/admin/auth');
+const { requireSignin } = require('../common-middleware');
+const { signout } = require('../controller/auth');
 
 
 //set up the routes
 
 router.post('/signup',validateSignupRequest, isRequestValidated, signup);
 router.post('/signin',validateSigninRequest, isRequestValidated, signin);
-// router.post('/signout', signout)
+router.post('/signout',requireSignin, signout)
 
 module.exports = router;

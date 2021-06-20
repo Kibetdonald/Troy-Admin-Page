@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require("path");
 var aws = require('aws-sdk');
 const mongoose = require('mongoose');
-
+const bodyParser = require('body-parser');
 require('Dotenv/config');
 
 //Creating our application and firing the function
@@ -23,7 +23,13 @@ const connecter = process.env.dbconnection;
 
 //middleware
 app.use(cors());
+
+
+// Setting up basic middleware for all Express requests
+// app.use(bodyParser.urlencoded({ extended: true })); // Parses urlencoded bodies
+// app.use(bodyParser.json()); // Send JSON responses
 app.use(express.json());
+
 
 //Connection string to the database
 
@@ -49,7 +55,7 @@ const initialDataRoutes = require("./routes/admin/initialData");
 
 //using the files
 app.use("/public", express.static(path.join(__dirname, "uploads")));
-app.use('/api', authentify)
+app.use('/api', authentify);
 app.use("/api", productRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", initialDataRoutes)

@@ -2,6 +2,7 @@ const Category = require("../model/category");
 const slugify = require("slugify");
 const shortid = require("shortid");
 
+
 function createCategories(categories, parentId = null) {
   const categoryList = [];
   let category;
@@ -19,18 +20,18 @@ function createCategories(categories, parentId = null) {
       parentId: cate.parentId,
       type: cate.type,
       children: createCategories(categories, cate._id),
-    });
+    }); 
   }
 
-  return categoryList;
+  return categoryList; 
 }
 
 
 exports.addCategory = (req, res) => {
   const categoryObj = {
     name: req.body.name,
-    // slug:req.body.name,
-    // createdBy: req.user._id,
+    slug: `${slugify(req.body.name)}-${shortid.generate()}`,
+    createdBy: req.user._id,
   };
 
   if (req.file) {
@@ -49,6 +50,7 @@ exports.addCategory = (req, res) => {
     }
   });
 };
+
 
 
 exports.getCategories = (req, res) => {

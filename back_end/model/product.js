@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
-    name: { 
-        type: String, 
-        required: true, 
-        trim: true 
+    name: {
+        type: String,
+        required: true,
+        trim: true
     },
-    slug: { 
-        type: String, 
-      
-        unique: true 
+    slug: {
+        type: String,
+        unique: true
     },
-    price: { 
-        type: Number, 
-        required: true 
+    price: {
+        type: Number,
+        required: true
     },
     quantity: {
         type: Number,
@@ -29,13 +28,13 @@ const productSchema = new mongoose.Schema({
     ],
     reviews: [
         {
-            userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+            userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
             review: String
         }
     ],
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
-    // createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    // updatedAt: Date,
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    updatedAt: Date,
 
 }, { timestamps: true });
 

@@ -4,26 +4,26 @@ const slugify = require("slugify");
 const Category = require("../model/category");
 
 exports.createProduct = (req, res) => {
-  //res.status(200).json( { file: req.files, body: req.body } );
+  // res.status(200).json( { file: req.files, body: req.body } );
 
-  const { name, price, description, category, quantity } = req.body;
+  const { name, price, description, quantity, category, createdBy } = req.body;
   let productPictures = [];
 
-  // if (req.files.length > 0) {
-  //   productPictures = req.files.map((file) => {
-  //     return { img: file.location };
-  //   });
-  // }
+  if (req.files.length > 0) {
+    productPictures = req.files.map((file) => {
+      return { img: file.filename };
+    });
+  }
 
   const product = new Product({
-    name: name,
-   
-    price,
-    quantity,
-    description,
-    productPictures,
+    name: req.body.name,
+    slug: req.body.name,
+    price: req.body.price,
     category,
-    // createdBy: req.user._id,
+    quantity: req.body.quantity,
+    description: req.body.description,
+    productPictures,
+    createdBy: req.user._id,
   });
 
   product.save((error, product) => {
@@ -39,7 +39,7 @@ exports.getProductsBySlug = (req, res) => {
   Category.findOne({ slug: slug })
     .select("_id type")
     .exec((error, category) => {
-      if (error) {
+      if (error) { 
         return res.status(400).json({ error });
       }
 
@@ -49,7 +49,7 @@ exports.getProductsBySlug = (req, res) => {
             return res.status(400).json({ error });
           }
 
-          if (category.type) {
+        
             if (products.length > 0) {
               res.status(200).json({
                 products,
@@ -77,9 +77,7 @@ exports.getProductsBySlug = (req, res) => {
                 },
               });
             }
-          } else {
-            res.status(200).json({ products });
-          }
+        
         });
       }
     });
@@ -107,7 +105,7 @@ exports.deleteProductById = (req, res) => {
       if (error) return res.status(400).json({ error });
       if (result) {
         res.status(202).json({ result });
-      }
+      } 
     });
   } else {
     res.status(400).json({ error: "Params required" });
