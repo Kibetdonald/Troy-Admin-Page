@@ -49,6 +49,7 @@ mongoose.connect(connecter,
 
 //requiring the files
 const categoryRoutes = require("./routes/category");
+const cartRoutes = require("./routes/cart");
 const productRoutes = require('./routes/product');
 const authentify = require('./routes/auth');
 const initialDataRoutes = require("./routes/admin/initialData");
@@ -58,6 +59,7 @@ app.use("/public", express.static(path.join(__dirname, "uploads")));
 app.use('/api', authentify);
 app.use("/api", productRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", cartRoutes);
 app.use("/api", initialDataRoutes)
 
 
